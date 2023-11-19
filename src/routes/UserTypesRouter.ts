@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import UserTypesController from '../controllers/UserTypesController'
+import { isAuthenticated } from '../middlewares/isAuthenticated'
 
 const userTypesRoutes = Router()
 
