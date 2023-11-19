@@ -13,7 +13,7 @@ datasource db {
 model UserTypes {
   id     String  @id @default(uuid())
   name   String
-  price  String
+  price  Decimal
   active Boolean @default(true)
   users  User[]
 
