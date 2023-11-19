@@ -4,12 +4,14 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@prisma/client": "^5.6.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
     "http-status-code": "^2.1.0",
     "prettier": "^3.1.0",
+    "prisma": "^5.6.0",
     "typescript": "*"
   },
   "scripts": {
