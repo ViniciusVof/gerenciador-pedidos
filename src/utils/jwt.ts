@@ -5,9 +5,9 @@ const SECRET = process.env.JWT_SECRET || 'secret'
 interface JWTPayload {
   id: string
   fullname: string
-  name: string
   email: string
   phoneNumber: string
+  userTypesId: string
 }
 
 export default {
