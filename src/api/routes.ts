@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express'
+import { Router } from 'express'
 import userTypesRoutes from '../routes/UserTypesRouter'
 import { isAuthenticated } from '../middlewares/isAuthenticated'
 import userRoutes from '../routes/UserRoutes'
