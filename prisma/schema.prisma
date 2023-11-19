@@ -41,32 +41,31 @@ model User {
 }
 
 model Restaurant {
-  id            String   @id @default(uuid())
+  id            String     @id @default(uuid())
   corporateName String
   fantasyName   String
   cnpj          String
   phoneNumber   String
   siteName      String
-  categories    Category @relation(fields: [categoryId], references: [id])
+  categories    Category[]
 
-  createdAt  DateTime? @default(now())
-  updatedAt  DateTime? @default(now()) @updatedAt
-  categoryId String
-  User       User?     @relation(fields: [userId], references: [id])
-  userId     String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now()) @updatedAt
+  User      User?     @relation(fields: [userId], references: [id])
+  userId    String?
 
   @@map("restaurants")
 }
 
 model Category {
-  id       String  @id @default(uuid())
+  id       String    @id @default(uuid())
   name     String
-  products Product @relation(fields: [productId], references: [id])
+  products Product[]
 
-  createdAt  DateTime?    @default(now())
-  updatedAt  DateTime?    @default(now()) @updatedAt
-  Restaurant Restaurant[]
-  productId  String
+  createdAt    DateTime?   @default(now())
+  updatedAt    DateTime?   @default(now()) @updatedAt
+  Restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
+  restaurantId String?
 
   @@map("categories")
 }
@@ -78,9 +77,10 @@ model Product {
   price       Decimal
   photo       String
 
-  createdAt DateTime?  @default(now())
-  updatedAt DateTime?  @default(now()) @updatedAt
-  Category  Category[]
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @default(now()) @updatedAt
+  Category   Category  @relation(fields: [categoryId], references: [id])
+  categoryId String
 
   @@map("products")
 }
