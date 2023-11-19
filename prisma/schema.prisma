@@ -24,12 +24,13 @@ model UserTypes {
 }
 
 model User {
-  id          String  @id @default(uuid())
+  id          String       @id @default(uuid())
   fullname    String
   email       String
   password    String
   phoneNumber String
-  active      Boolean @default(true)
+  active      Boolean      @default(true)
+  restaurants Restaurant[]
 
   createdAt   DateTime?  @default(now())
   updatedAt   DateTime?  @default(now()) @updatedAt
@@ -37,4 +38,49 @@ model User {
   userTypesId String?
 
   @@map("users")
+}
+
+model Restaurant {
+  id            String   @id @default(uuid())
+  corporateName String
+  fantasyName   String
+  cnpj          String
+  phoneNumber   String
+  siteName      String
+  categories    Category @relation(fields: [categoryId], references: [id])
+
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @default(now()) @updatedAt
+  categoryId String
+  User       User?     @relation(fields: [userId], references: [id])
+  userId     String?
+
+  @@map("restaurants")
+}
+
+model Category {
+  id       String  @id @default(uuid())
+  name     String
+  products Product @relation(fields: [productId], references: [id])
+
+  createdAt  DateTime?    @default(now())
+  updatedAt  DateTime?    @default(now()) @updatedAt
+  Restaurant Restaurant[]
+  productId  String
+
+  @@map("categories")
+}
+
+model Product {
+  id          String  @id @default(uuid())
+  name        String
+  description String
+  price       Decimal
+  photo       String
+
+  createdAt DateTime?  @default(now())
+  updatedAt DateTime?  @default(now()) @updatedAt
+  Category  Category[]
+
+  @@map("products")
 }
