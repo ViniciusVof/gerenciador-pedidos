@@ -8,6 +8,7 @@ import customerRoutes from '../routes/CustomerRoutes'
 import neighborhoodRoutes from '../routes/NeighborhoodRoutes'
 import addressRoutes from '../routes/AddressRoutes'
 import ordersRoutes from '../routes/OrderRoutes'
+import orderItemsRoutes from '../routes/OrderItemsRoutes'
 
 const routes = Router()
 
@@ -20,5 +21,6 @@ routes.use('/customers', customerRoutes)
 routes.use('/neighborhoods', neighborhoodRoutes)
 routes.use('/address', addressRoutes)
 routes.use('/orders', ordersRoutes)
+routes.use('/ordersItems', orderItemsRoutes)
 
 export default routes
