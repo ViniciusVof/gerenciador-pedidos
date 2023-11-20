@@ -6,6 +6,7 @@ import categoryRoutes from '../routes/CategoryRoutes'
 import productRoutes from '../routes/ProductRoutes'
 import customerRoutes from '../routes/CustomerRoutes'
 import neighborhoodRoutes from '../routes/NeighborhoodRoutes'
+import addressRoutes from '../routes/AddressRoutes'
 
 const routes = Router()
 
@@ -16,5 +17,6 @@ routes.use('/users', userRoutes)
 routes.use('/products', productRoutes)
 routes.use('/customers', customerRoutes)
 routes.use('/neighborhoods', neighborhoodRoutes)
+routes.use('/address', addressRoutes)
 
 export default routes
