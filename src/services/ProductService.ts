@@ -1,5 +1,7 @@
 import { Decimal } from '@prisma/client/runtime/library'
 import prismaClient from '../lib/prisma'
+import { fstat, unlink } from 'fs'
+import { dirname, resolve } from 'path'
 
 interface CreateProductRequest {
   name: string
@@ -103,6 +105,21 @@ class ProductService {
       throw new Error('Preencha todos os campos')
     }
 
+    const oldProduct = await prismaClient.product.findFirst({
+      where: { id },
+      select: {
+        photo: true,
+      },
+    })
+
+    unlink(
+      resolve(__dirname, '..', '..', 'uploads', oldProduct.photo),
+      error => {
+        if (!error) return true
+        if (error) throw new Error('Erro ao excluir arquivo')
+      }
+    )
+
     const product = await prismaClient.product.update({
       where: {
         id,
@@ -131,6 +148,21 @@ class ProductService {
     if (!id) {
       throw new Error('Preencha todos os campos')
     }
+    const oldProduct = await prismaClient.product.findFirst({
+      where: { id },
+      select: {
+        photo: true,
+      },
+    })
+
+    unlink(
+      resolve(__dirname, '..', '..', 'uploads', oldProduct.photo),
+      error => {
+        if (!error) return true
+        if (error) throw new Error('Erro ao excluir arquivo')
+      }
+    )
+
     const deleteProduct = await prismaClient.product.delete({
       where: {
         id,
@@ -138,7 +170,7 @@ class ProductService {
     })
 
     if (!deleteProduct) {
-      throw new Error('Não foi possível excluir a categoria')
+      throw new Error('Não foi possível excluir o produto')
     }
 
     return deleteProduct
