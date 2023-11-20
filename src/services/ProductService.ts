@@ -1,7 +1,7 @@
 import { Decimal } from '@prisma/client/runtime/library'
 import prismaClient from '../lib/prisma'
-import { fstat, unlink } from 'fs'
-import { dirname, resolve } from 'path'
+import { unlink } from 'fs'
+import { resolve } from 'path'
 
 interface CreateProductRequest {
   name: string
