@@ -6,7 +6,7 @@ const userRoutes = Router()
 
 userRoutes.route('/auth').post(UserController.AuthenticateUser)
 userRoutes.route('/list').get(isAuthenticated, UserController.ReadUser)
-userRoutes.route('/create').post(isAuthenticated, UserController.CreateUser)
+userRoutes.route('/create').post(UserController.CreateUser)
 userRoutes.route('/update/:id').put(isAuthenticated, UserController.UpdateUser)
 userRoutes
   .route('/delete/:id')

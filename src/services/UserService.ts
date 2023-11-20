@@ -39,6 +39,9 @@ class UserService {
     return user
   }
   async findById({ id }: FindUserByIdRequest) {
+    if (!id) {
+      throw new Error('Preencha todos os campos')
+    }
     const user = await prismaClient.user.findMany({
       where: {
         id,
@@ -106,7 +109,14 @@ class UserService {
     phoneNumber,
     userTypesId,
   }: UpdateUserRequest) {
-    if (!fullname || !email || !password || !phoneNumber || !userTypesId) {
+    if (
+      !id ||
+      !fullname ||
+      !email ||
+      !password ||
+      !phoneNumber ||
+      !userTypesId
+    ) {
       throw new Error('Preencha todos os campos')
     }
 
@@ -140,6 +150,9 @@ class UserService {
   }
 
   async delete({ id }: DeleteUserRequest) {
+    if (!id) {
+      throw new Error('Preencha todos os campos')
+    }
     const deleteUserType = await prismaClient.user.delete({
       where: {
         id,
@@ -154,6 +167,10 @@ class UserService {
   }
 
   async authenticate({ email, password }: AuthUserRequest) {
+    if (!email || !password) {
+      throw new Error('Preencha todos os campos')
+    }
+
     const user = await prismaClient.user.findFirst({
       where: {
         email,

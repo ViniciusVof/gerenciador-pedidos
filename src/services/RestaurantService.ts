@@ -34,6 +34,9 @@ class RestaurantService {
     return restaurant
   }
   async findById({ id }: FindRestaurantByIdRequest) {
+    if (!id) {
+      throw new Error('Preencha todos os campos')
+    }
     const restaurant = await prismaClient.restaurant.findMany({
       where: {
         id,
@@ -103,6 +106,7 @@ class RestaurantService {
     userId,
   }: UpdateRestaurantRequest) {
     if (
+      !id ||
       !corporateName ||
       !fantasyName ||
       !cnpj ||
@@ -143,6 +147,9 @@ class RestaurantService {
   }
 
   async delete({ id }: DeleteRestaurantRequest) {
+    if (!id) {
+      throw new Error('Preencha todos os campos')
+    }
     const deleteRestaurant = await prismaClient.restaurant.delete({
       where: {
         id,

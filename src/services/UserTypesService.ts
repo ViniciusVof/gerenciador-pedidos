@@ -27,6 +27,9 @@ class UserTypesService {
     return userTypes
   }
   async findById({ id }: FindUserByIdTypesRequest) {
+    if (!id) {
+      throw new Error('Preencha todos os campos')
+    }
     const userTypes = await prismaClient.userTypes.findMany({
       where: {
         id,
@@ -74,7 +77,7 @@ class UserTypesService {
   }
 
   async update({ id, name, price }: UpdateUserTypesRequest) {
-    if (!name || price === null || price === undefined) {
+    if (!id || !name || price === null || price === undefined) {
       throw new Error('Preencha todos os campos')
     }
 
@@ -101,6 +104,9 @@ class UserTypesService {
   }
 
   async delete({ id }: DeleteUserTypesRequest) {
+    if (!id) {
+      throw new Error('Preencha todos os campos')
+    }
     const deleteUserType = await prismaClient.userTypes.delete({
       where: {
         id,

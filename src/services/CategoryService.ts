@@ -26,6 +26,10 @@ class CategoryService {
     return category
   }
   async findById({ id }: FindCategoryByIdRequest) {
+    if (!id) {
+      throw new Error('Preencha todos os campos')
+    }
+
     const category = await prismaClient.category.findMany({
       where: {
         id,
@@ -45,8 +49,12 @@ class CategoryService {
 
     const alreadyExists = await prismaClient.category.findFirst({
       where: {
-        name,
-        restaurantId,
+        AND: [
+          {
+            name,
+          },
+          { restaurantId },
+        ],
       },
     })
 
@@ -69,7 +77,7 @@ class CategoryService {
   }
 
   async update({ id, name, restaurantId }: UpdateCategoryRequest) {
-    if (!name || !restaurantId) {
+    if (!id || !name || !restaurantId) {
       throw new Error('Preencha todos os campos')
     }
 
@@ -95,6 +103,9 @@ class CategoryService {
   }
 
   async delete({ id }: DeleteCategoryRequest) {
+    if (!id) {
+      throw new Error('Preencha todos os campos')
+    }
     const deleteCategory = await prismaClient.category.delete({
       where: {
         id,
