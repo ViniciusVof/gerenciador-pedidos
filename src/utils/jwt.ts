@@ -10,8 +10,22 @@ interface JWTPayload {
   userTypesId: string
 }
 
+interface CustomerJWTPayload {
+  id: string
+  fullname: string
+  email: string
+  phoneNumber: string
+  restaurantId: string
+}
+
 export default {
   sign: (payload: JWTPayload) =>
+    jwt.sign(payload, SECRET, {
+      subject: payload.id,
+      expiresIn: '1h',
+      algorithm: 'HS256',
+    }),
+  signCustomer: (payload: CustomerJWTPayload) =>
     jwt.sign(payload, SECRET, {
       subject: payload.id,
       expiresIn: '1h',

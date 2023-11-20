@@ -2,47 +2,47 @@ import { compare, hash } from 'bcryptjs'
 import prismaClient from '../lib/prisma'
 import jwt from '../utils/jwt'
 
-interface AuthUserRequest {
+interface AuthCustomerRequest {
   email: string
   password: string
 }
 
-interface CreateUserRequest {
+interface CreateCustomerRequest {
   fullname: string
   email: string
   password: string
   phoneNumber: string
-  userTypesId: string
+  restaurantId: string
 }
 
-interface UpdateUserRequest {
+interface UpdateCustomerRequest {
   id: string
   fullname: string
   email: string
   password: string
   phoneNumber: string
-  userTypesId: string
+  restaurantId: string
 }
 
-interface FindUserByIdRequest {
+interface FindCustomerByIdRequest {
   id: string
 }
 
-interface DeleteUserRequest {
+interface DeleteCustomerRequest {
   id: string
 }
 
-class UserService {
+class CustomerService {
   async findAll() {
-    const user = await prismaClient.user.findMany()
+    const user = await prismaClient.customer.findMany()
 
     return user
   }
-  async findById({ id }: FindUserByIdRequest) {
+  async findById({ id }: FindCustomerByIdRequest) {
     if (!id) {
       throw new Error('Preencha todos os campos')
     }
-    const user = await prismaClient.user.findMany({
+    const user = await prismaClient.customer.findMany({
       where: {
         id,
       },
@@ -59,13 +59,13 @@ class UserService {
     email,
     password,
     phoneNumber,
-    userTypesId,
-  }: CreateUserRequest) {
-    if (!fullname || !email || !password || !phoneNumber || !userTypesId) {
+    restaurantId,
+  }: CreateCustomerRequest) {
+    if (!fullname || !email || !password || !phoneNumber || !restaurantId) {
       throw new Error('Preencha todos os campos')
     }
 
-    const alreadyExists = await prismaClient.user.findFirst({
+    const alreadyExists = await prismaClient.customer.findFirst({
       where: {
         email,
       },
@@ -77,20 +77,20 @@ class UserService {
 
     const passwordHash = await hash(password, 8)
 
-    const user = await prismaClient.user.create({
+    const user = await prismaClient.customer.create({
       data: {
         fullname,
         email,
         password: passwordHash,
         phoneNumber,
-        userTypesId,
+        restaurantId,
       },
       select: {
         id: true,
         fullname: true,
         email: true,
         phoneNumber: true,
-        userTypesId: true,
+        restaurantId: true,
       },
     })
 
@@ -107,22 +107,22 @@ class UserService {
     email,
     password,
     phoneNumber,
-    userTypesId,
-  }: UpdateUserRequest) {
+    restaurantId,
+  }: UpdateCustomerRequest) {
     if (
       !id ||
       !fullname ||
       !email ||
       !password ||
       !phoneNumber ||
-      !userTypesId
+      !restaurantId
     ) {
       throw new Error('Preencha todos os campos')
     }
 
     const passwordHash = await hash(password, 8)
 
-    const user = await prismaClient.user.update({
+    const user = await prismaClient.customer.update({
       where: {
         id,
       },
@@ -131,14 +131,14 @@ class UserService {
         email,
         password: passwordHash,
         phoneNumber,
-        userTypesId,
+        restaurantId,
       },
       select: {
         id: true,
         fullname: true,
         email: true,
         phoneNumber: true,
-        userTypesId: true,
+        restaurantId: true,
       },
     })
 
@@ -149,29 +149,29 @@ class UserService {
     return user
   }
 
-  async delete({ id }: DeleteUserRequest) {
+  async delete({ id }: DeleteCustomerRequest) {
     if (!id) {
       throw new Error('Preencha todos os campos')
     }
-    const deleteUser = await prismaClient.user.delete({
+    const deleteCustomer = await prismaClient.customer.delete({
       where: {
         id,
       },
     })
 
-    if (!deleteUser) {
+    if (!deleteCustomer) {
       throw new Error('Não foi possível excluir o usuário')
     }
 
-    return deleteUser
+    return deleteCustomer
   }
 
-  async authenticate({ email, password }: AuthUserRequest) {
+  async authenticate({ email, password }: AuthCustomerRequest) {
     if (!email || !password) {
       throw new Error('Preencha todos os campos')
     }
 
-    const user = await prismaClient.user.findFirst({
+    const user = await prismaClient.customer.findFirst({
       where: {
         email,
       },
@@ -187,12 +187,12 @@ class UserService {
       throw new Error('Senha incorreta')
     }
 
-    const token = jwt.sign({
+    const token = jwt.signCustomer({
       id: user.id,
       email: user.email,
       fullname: user.fullname,
       phoneNumber: user.phoneNumber,
-      userTypesId: user.userTypesId,
+      restaurantId: user.restaurantId,
     })
 
     return {
@@ -200,10 +200,10 @@ class UserService {
       email: user.email,
       fullname: user.fullname,
       phoneNumber: user.phoneNumber,
-      userTypesId: user.userTypesId,
+      restaurantId: user.restaurantId,
       token,
     }
   }
 }
 
-export default new UserService()
+export default new CustomerService()
