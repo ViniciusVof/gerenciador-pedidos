@@ -1,19 +1,4 @@
 import prismaClient from '../lib/prisma'
-// model OrderItems {
-//   id     String @id @default(uuid())
-//   amount Int
-
-//   created_at DateTime? @default(now())
-//   updated_at DateTime? @default(now())
-
-//   Order     Order?   @relation(fields: [orderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-//   orderId   String?
-//   Product   Product? @relation(fields: [productId], references: [id])
-//   productId String?
-
-//   @@map("orderItems")
-// }
-
 interface CreateOrderItemsRequest {
   amount: number
   orderId: string

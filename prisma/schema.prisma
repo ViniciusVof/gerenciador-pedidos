@@ -121,10 +121,10 @@ model Neighborhood {
 }
 
 model Address {
-  id                String @id @default(uuid())
+  id                String  @id @default(uuid())
   address           String
-  addressNumber     String
-  addressComplement String
+  addressNumber     Int
+  addressComplement String?
 
   createdAt      DateTime?     @default(now())
   updatedAt      DateTime?     @default(now()) @updatedAt

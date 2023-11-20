@@ -2,7 +2,7 @@ import prismaClient from '../lib/prisma'
 
 interface CreateAddressRequest {
   address: string
-  addressNumber: string
+  addressNumber: number
   addressComplement: string
   neighborhoodId: string
   customerId: string
@@ -11,7 +11,7 @@ interface CreateAddressRequest {
 interface UpdateAddressRequest {
   id: string
   address: string
-  addressNumber: string
+  addressNumber: number
   addressComplement: string
   neighborhoodId: string
   customerId: string
@@ -55,13 +55,7 @@ class AddressService {
     neighborhoodId,
     customerId,
   }: CreateAddressRequest) {
-    if (
-      !address ||
-      !addressNumber ||
-      !addressComplement ||
-      !neighborhoodId ||
-      !customerId
-    ) {
+    if (!address || !addressNumber || !neighborhoodId || !customerId) {
       throw new Error('Preencha todos os campos')
     }
 
@@ -71,6 +65,7 @@ class AddressService {
           {
             address,
           },
+          { addressNumber },
           { customerId },
         ],
       },
@@ -104,14 +99,7 @@ class AddressService {
     neighborhoodId,
     customerId,
   }: UpdateAddressRequest) {
-    if (
-      !id ||
-      !address ||
-      !addressNumber ||
-      !addressComplement ||
-      !neighborhoodId ||
-      !customerId
-    ) {
+    if (!id || !address || !addressNumber || !neighborhoodId || !customerId) {
       throw new Error('Preencha todos os campos')
     }
 
